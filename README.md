@@ -20,26 +20,6 @@ The frontend application is hosted on an Amazon EC2 instance running Nginx. Clou
 
 ## Architecture Flow
 
-```mermaid
-flowchart LR
-    User((User)) -- "HTTPS Request\n(Custom Domain)" --> R53[Amazon Route 53\nDNS Alias Record]
-    R53 -- "Resolves to" --> CF[Amazon CloudFront\nGlobal Edge CDN]
-    
-    subgraph us-east-1 [US East 1]
-        ACM[AWS ACM\nTLS Certificate] -. "Attached to" .- CF
-    end
-    
-    subgraph VPC [AWS VPC]
-        CF -- "HTTP: Port 80\n(Origin Request)" --> SG{Security Group\nAllow: CF Prefix List}
-        SG -- "Forward" --> EC2[Amazon EC2\nApache Web Server]
-    end
-
-    classDef aws fill:#FF9900,stroke:#232F3E,stroke-width:2px,color:black;
-    class R53,CF,ACM,EC2 aws;
-    classDef sec fill:#e05555,stroke:#232F3E,stroke-width:2px,color:white;
-    class SG sec;
-```
-
 <!-- Cntrl+click edge.png -->
 
 ![alt text](edge.png) 
